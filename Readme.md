@@ -46,7 +46,69 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 
 **NOTE:** 上面指定了`JAVA_HOME` 目录在`/data/jdk`.当然你可以把jdk防止在任意位置,只要指定其具体位置就可以,或者你也可以修改脚本,只需要配置java环境变量即可.一切都是为了配置基础的运行环境,如果你熟悉java环境,你可以随时配置
 
+# 完整文件下载地址
+* [chat-server-depley]()
+
+**NOTE:** 下载完成后,你需要替换boot目录下的文件内容为这里的修改配置即可
 
 # 参数配置
 
-目前仅有两个服务启动既可运行,参数配置仅需关心,各个目录下config即可
+目前仅有两个服务启动既可运行,参数配置仅需关心,各个目录下config即可,你需要配置下面的文件即可
+
+## push-connector
+
+```yaml
+# wss ssl 配置,这里配置jks需要指定其绝对路径地址
+push.ssl.keystore=classpath:chat.comsince.cn.jks
+push.ssl.truststore=classpath:chat.comsince.cn.trustkeystore.jks
+push.ssl.password=123456
+## Dubbo Registry
+dubbo.registry.address=zookeeper://zookeeper:2181
+
+## kafka broker 
+#push.kafka.broker=kafka:9092
+
+## kurento client url
+kurento.clientUrl=ws://media.comsince.cn:8888/kurento
+
+## minio url
+minio.url=https://media.comsince.cn
+## minio access_key
+minio.access_key=comsince
+## minio secret_key
+minio.secret_key=comsince
+
+
+```
+
+## push-group
+
+```yaml
+
+## Dubbo 注册中心
+dubbo.registry.address=zookeeper://zookeeper:2181
+
+
+#云短信厂商,1:代表阿里云短信 2: 代表腾讯云短信
+sms.cp=2
+# 应用id
+sms.appid=LTAI4Ff1jtqrSr3rkHMKEnfs
+# 应用key
+sms.appkey=gG33mvmMAxGYol7Vd1AEG6InRK9VCD
+# 模板id
+sms.templateId=SMS_180355435
+# 短信签名由于编码问题,请到相应的代码里面设置
+
+# 短信超级验证码,正式上线请修改
+sms.superCode=6666
+
+# 是否使用内置数据库 1: 表示使用 0: 使用mySql
+im.embed_db=0
+# jdbc url
+im.jdbc_url=jdbc:mysql://mysql:3306/wfchat?useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
+# mysql数据库访问用户名
+im.user=root
+#mysql数据库访问密码
+im.password=123456
+
+```

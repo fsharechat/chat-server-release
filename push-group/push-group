@@ -51,7 +51,7 @@ do_start()
 
   mkdir -p /data/boot/$APP_NAME/logs
 
-  COMMAND="$JAVA_HOME/bin/java $JVM_OPTIONS -jar $APP_LIB/$JAR_NAME"
+  COMMAND="$JAVA_HOME/bin/java $JVM_OPTIONS -jar $APP_LIB/$JAR_NAME --spring.config.additional-location=file:./config/"
   (${COMMAND} 2>&1 1> "/data/boot/$APP_NAME/logs/$APP_NAME.log" &) > /dev/null
 
   sleep 1 #避免进程启动太慢,导致无法进入后续循环
