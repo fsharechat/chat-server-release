@@ -47,7 +47,7 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 **NOTE:** 上面指定了`JAVA_HOME` 目录在`/data/jdk`.当然你可以把jdk防止在任意位置,只要指定其具体位置就可以,或者你也可以修改脚本,只需要配置java环境变量即可.一切都是为了配置基础的运行环境,如果你熟悉java环境,你可以随时配置
 
 # 完整文件下载地址
-* [chat-server-depley]()
+* [chat-server-depley](https://media.comsince.cn/minio-bucket-file-name/universe-push-deploy.tar.gz)
 
 **NOTE:** 下载完成后,你需要替换boot目录下的文件内容为这里的修改配置即可
 
@@ -74,9 +74,9 @@ kurento.clientUrl=ws://media.comsince.cn:8888/kurento
 ## minio url
 minio.url=https://media.comsince.cn
 ## minio access_key
-minio.access_key=comsince
+minio.access_key=
 ## minio secret_key
-minio.secret_key=comsince
+minio.secret_key=
 
 
 ```
