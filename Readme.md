@@ -7,13 +7,13 @@
 ├── push-connector # 信令消息服务器目录，支持TCP,WSS链接
 │   ├── jvm.ini #jvm参数配置
 │   ├── lib
-│   │   └── spring-boot-dubbo-push-connector-1.0.0-SNAPSHOT.jar
+│   │   └── spring-boot-dubbo-push-connector-1.2.0-SNAPSHOT.jar
 │   ├── logs # 日志
 │   └── push-connector # 启动脚本
 └── push-group # 业务相关逻辑服务，包括http登录接口
     ├── jvm.ini #jvm参数配置
     ├── lib
-    │   └── spring-boot-web-push-group-1.0.0-SNAPSHOT.jar
+    │   └── spring-boot-web-push-group-1.2.0-SNAPSHOT.jar
     ├── logs # 日志
     └── push-group # 启动脚本
 ```
@@ -50,6 +50,13 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 * [chat-server-depley](https://media.comsince.cn/minio-bucket-file-name/universe-push-deploy.tar.gz)
 
 **NOTE:** 下载完成后,你需要替换boot目录下的文件内容为这里的修改配置即可
+
+## 下载最新版本的服务
+
+* [push-connector](https://media.comsince.cn/minio-bucket-file-name/spring-boot-dubbo-push-connector-1.2.0-SNAPSHOT.jar)
+* [push-group](https://media.comsince.cn/minio-bucket-file-name/spring-boot-web-push-group-1.2.0-SNAPSHOT.jar)
+
+* 由于github仓库限制以及网络问题,不便上传.当你下载完上面两个服务jar包,分别放到相应目录的lib下
 
 # 参数配置
 
@@ -111,4 +118,12 @@ im.user=root
 #mysql数据库访问密码
 im.password=123456
 
+```
+
+
+# 启动服务
+
+```shell
+./push-group/push-group start
+./push-connector/push-connector start
 ```
