@@ -46,28 +46,36 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 
 **NOTE:** 上面指定了`JAVA_HOME` 目录在`/data/jdk`.当然你可以把jdk防止在任意位置,只要指定其具体位置就可以,或者你也可以修改脚本,只需要配置java环境变量即可.一切都是为了配置基础的运行环境,如果你熟悉java环境,你可以随时配置
 
-# 完整文件下载地址
-* [chat-server-depley](https://media.comsince.cn/minio-bucket-file-name/universe-push-deploy.tar.gz)
 
-**NOTE:** 下载完成后,你需要替换boot目录下的文件内容为这里的修改配置即可
+# 部署说明
 
-## 下载最新版本的服务
+## 下载完整安装包
+* [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-centos-deploy.tar.gz)
 
-* [push-connector](https://media.comsince.cn/minio-bucket-file-name/spring-boot-dubbo-push-connector-1.2.0-SNAPSHOT.jar)
-* [push-group](https://media.comsince.cn/minio-bucket-file-name/spring-boot-web-push-group-1.2.0-SNAPSHOT.jar)
+**NOTE:** 下载完成后,请将压缩文件解压到`/data`目录下即可,注意上面的命令行都是以这个目录为标准的,切忌不要随意放置
 
-* 由于github仓库限制以及网络问题,不便上传.当你下载完上面两个服务jar包,分别放到相应目录的lib下
+## 下载部署服务
+
+**NOTE:**  由于github仓库限制以及网络问题,不便上传.当你下载完下面两个服务jar包,分别放到相应服务的`lib`目录下,请选择以下最新版本下载
+
+### push-connector服务
+* [push-connector-1.2.0-SNAPSHOT](https://media.comsince.cn/minio-bucket-file-name/spring-boot-dubbo-push-connector-1.2.0-SNAPSHOT.jar)
+
+### push-group服务
+* [push-group-1.2.0-SNAPSHOT](https://media.comsince.cn/minio-bucket-file-name/spring-boot-web-push-group-1.2.0-SNAPSHOT.jar)
+
+
 
 # 参数配置
 
-目前仅有两个服务启动既可运行,参数配置仅需关心,各个目录下config即可,你需要配置下面的文件即可
+目前仅有两个服务启动既可运行,参数配置仅需关心,各个目录下config即可,你需要配置下面的文件即可,具体在每个服务的`config`目录下
 
 ## push-connector
 
 ```yaml
 # wss ssl 配置,这里配置jks需要指定其绝对路径地址
-push.ssl.keystore=classpath:chat.comsince.cn.jks
-push.ssl.truststore=classpath:chat.comsince.cn.trustkeystore.jks
+push.ssl.keystore=/data/boot/push-connector/config/chat.comsince.cn.jks
+push.ssl.truststore=/data/boot/push-connector/config/chat.comsince.cn.trustkeystore.jks
 push.ssl.password=123456
 ## Dubbo Registry
 dubbo.registry.address=zookeeper://zookeeper:2181
@@ -75,7 +83,7 @@ dubbo.registry.address=zookeeper://zookeeper:2181
 ## kafka broker 
 #push.kafka.broker=kafka:9092
 
-## kurento client url
+## kurento client url,群组音视频服务
 kurento.clientUrl=ws://media.comsince.cn:8888/kurento
 
 ## minio url
