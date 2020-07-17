@@ -73,14 +73,13 @@ yum install nc
     public static String MINIO_BUCKET_PORTRAIT_NAME = "minio-bucket-portrait-name";
     public static String MINIO_BUCKET_FAVORITE_NAME = "minio-bucket-favorite-name";
 ```
-
-![image](https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949312959-minio-bucket.png)
+<img src="https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949312959-minio-bucket.png" alt="minio-bucket" align="center" />
 
 * 权限设置
 
 **NOTE:** 所有的bucket都按照如下进行设置
 
-![image](https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949556742-bucket-policy.png)
+<img src="https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949556742-bucket-policy.png" alt="minio-bucket" align="center" />
 
 ## 下载完整安装包
 * [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-centos-deploy.tar.gz)
