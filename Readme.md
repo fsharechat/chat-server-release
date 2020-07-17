@@ -49,6 +49,39 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 
 # 部署说明
 
+## 前置安装说明
+
+### centos 环境准备
+
+```shell
+yum install nc
+```
+
+* [java 环境配置](https://www.comsince.cn/2020/04/13/universe-push-start-on-centos/#java%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE)
+* 如果使用`Mysql`请先事先安装,[【数据库】- MySQL基本安装](https://www.comsince.cn/wiki/2019-07-01-mysql-00-install/)
+
+### minio配置
+
+* [安装](https://www.comsince.cn/2020/04/13/universe-push-start-on-centos/#%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8)
+* 创建不同的bucket用于存储不同的文件类型
+```java
+    public static String MINIO_BUCKET_GENERAL_NAME = "minio-bucket-general-name";
+    public static String MINIO_BUCKET_IMAGE_NAME = "minio-bucket-image-name";
+    public static String MINIO_BUCKET_VOICE_NAME = "minio-bucket-voice-name";
+    public static String MINIO_BUCKET_VIDEO_NAME = "minio-bucket-video-name";
+    public static String MINIO_BUCKET_FILE_NAME = "minio-bucket-file-name";
+    public static String MINIO_BUCKET_PORTRAIT_NAME = "minio-bucket-portrait-name";
+    public static String MINIO_BUCKET_FAVORITE_NAME = "minio-bucket-favorite-name";
+```
+
+![image](https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949312959-minio-bucket.png)
+
+* 权限设置
+
+**NOTE:** 所有的bucket都按照如下进行设置
+
+![image](https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949556742-bucket-policy.png)
+
 ## 下载完整安装包
 * [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-centos-deploy.tar.gz)
 
@@ -73,7 +106,7 @@ JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 ## push-connector
 
 ```yaml
-# wss ssl 配置,这里配置jks需要指定其绝对路径地址
+# wss ssl 配置,这里配置jks需要指定其绝对路径地址,不启用wss 请将这里设置为空,即表示不启用wss,使用ws.本地部署可以考虑暂时不启用wss
 push.ssl.keystore=/data/boot/push-connector/config/chat.comsince.cn.jks
 push.ssl.truststore=/data/boot/push-connector/config/chat.comsince.cn.trustkeystore.jks
 push.ssl.password=123456
@@ -134,4 +167,51 @@ im.password=123456
 ```shell
 ./push-group/push-group start
 ./push-connector/push-connector start
+```
+
+# 客户端
+
+## vue 客户端配置
+* 配置文件 `vue-chat\src\constant\index.js`
+
+```java
+  //ws 协议配置
+  //export const WS_PROTOCOL = 'wss';
+  export const WS_PROTOCOL = 'ws';
+  
+  //websocket 服务地址  
+  //export const WS_IP = 'github.comsince.cn';
+  export const WS_IP = 'localhost';
+    
+  //登录接口服务配置,本地部署可以不启用https  
+  //export const HTTP_HOST = "https://"+WS_IP + ":8443/"
+  export const HTTP_HOST = "http://"+WS_IP + ":8081/"
+```
+
+* 编译
+
+```shell
+npm run build
+```
+
+## android 客户端
+
+* 配置文件在chat工程下的`config.java`
+
+```java
+//IM server 即是push-connector服务地址
+    String IM_SERVER_HOST = "chat.comsince.cn";
+    int IM_SERVER_PORT = 6789;
+
+//push-group服务地址
+    String APP_SERVER_HOST = "chat.comsince.cn";
+    int APP_SERVER_PORT = 8081;
+```
+
+* 编译APK
+
+**NOTE:** 编译前请确保`Android SDK`配置正确
+
+```shell
+./gradlew clean assembleDebug
 ```
