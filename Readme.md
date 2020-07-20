@@ -112,7 +112,7 @@ push.ssl.password=123456
 ## Dubbo Registry
 dubbo.registry.address=zookeeper://zookeeper:2181
 
-## kafka broker 
+## kafka broker 暂时不建议使用集群,单击部署可暂时不用配置
 #push.kafka.broker=kafka:9092
 
 ## kurento client url,群组音视频服务
@@ -136,7 +136,7 @@ minio.secret_key=
 dubbo.registry.address=zookeeper://zookeeper:2181
 
 
-#云短信厂商,1:代表阿里云短信 2: 代表腾讯云短信
+#云短信厂商,1:代表阿里云短信 2: 代表腾讯云短信.如果没有短信服务,可暂时不用配置,使用超级验证码登录
 sms.cp=2
 # 应用id
 sms.appid=LTAI4Ff1jtqrSr3rkHMKEnfs
@@ -160,6 +160,15 @@ im.password=123456
 
 ```
 
+## jvm.ini 参数配置
+
+**NOTE:** 由于我的线上服务器使用的内存比较小,所以对`push-connector`,`push-group`的jvm参数做了调整.所以以下内存参数配置,可以根据自己实际机器的配置修改
+
+```shell
+-Xmx300m  最大使用内存
+-Xms300m  最小使用内存
+-Xmn100m  新生代内存
+```
 
 # 启动服务
 
