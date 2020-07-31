@@ -31,6 +31,7 @@
 * push-connecotor脚本
 
 ```shell
+# 如果是ubuntu系统,请将这里改为#!/bin/bash
 #!/bin/sh
 # 这里可以修改JAVA_HOME的路径
 JAVA_HOME=/data/jdk
@@ -43,6 +44,7 @@ JVM_INI=${APP_DIR}/jvm.ini
 JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
 
 ```
+__NOTE:__ 如果是ubuntu系统,请将这里改为#!/bin/bash
 
 **NOTE:** 上面指定了`JAVA_HOME` 目录在`/data/jdk`.当然你可以把jdk防止在任意位置,只要指定其具体位置就可以,或者你也可以修改脚本,只需要配置java环境变量即可.一切都是为了配置基础的运行环境,如果你熟悉java环境,你可以随时配置
 
