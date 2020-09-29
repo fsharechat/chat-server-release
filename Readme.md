@@ -84,7 +84,7 @@ yum install nc
 <img src="https://media.comsince.cn/minio-bucket-image-name/1-373z3zNN-1594949556742-bucket-policy.png" alt="minio-bucket" align="center" />
 
 ## 下载完整安装包
-* [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-centos-deploy.tar.gz)
+* [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-chat-pro.tar.gz)
 
 **NOTE:** 下载完成后,请将压缩文件解压到`/data`目录下即可,注意上面的命令行都是以这个目录为标准的,切忌不要随意放置
 
@@ -93,10 +93,10 @@ yum install nc
 **NOTE:**  由于github仓库限制以及网络问题,不便上传.当你下载完下面两个服务jar包,分别放到相应服务的`lib`目录下,请选择以下最新版本下载
 
 ### push-connector服务
-* [push-connector-1.2.0-SNAPSHOT](https://media.comsince.cn/minio-bucket-file-name/spring-boot-dubbo-push-connector-1.2.0-SNAPSHOT.jar)
+* [push-connector-1.2.3](https://media.comsince.cn/minio-bucket-file-name/spring-boot-dubbo-push-connector-1.2.3.jar)
 
 ### push-group服务
-* [push-group-1.2.0-SNAPSHOT](https://media.comsince.cn/minio-bucket-file-name/spring-boot-web-push-group-1.2.0-SNAPSHOT.jar)
+* [push-group-1.2.3](https://media.comsince.cn/minio-bucket-file-name/spring-boot-web-push-group-1.2.3.jar)
 
 
 
@@ -154,7 +154,7 @@ sms.superCode=6666
 # 是否使用内置数据库 1: 表示使用 0: 使用mySql
 im.embed_db=0
 # jdbc url
-im.jdbc_url=jdbc:mysql://mysql:3306/wfchat?useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
+im.jdbc_url=jdbc:mysql://mysql:3306/fsharechat?useSSL=false&serverTimezone=GMT&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8
 # mysql数据库访问用户名
 im.user=root
 #mysql数据库访问密码
