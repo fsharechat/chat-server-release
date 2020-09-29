@@ -86,7 +86,7 @@ yum install nc
 ## 下载完整安装包
 * [chat-server-deploy](https://media.comsince.cn/minio-bucket-file-name/fshare-chat-pro.tar.gz)
 
-**NOTE:** 下载完成后,请将压缩文件解压到`/data`目录下即可,注意上面的命令行都是以这个目录为标准的,切忌不要随意放置
+**NOTE:** 下载完成后,请将压缩文件解压到`/`根目录下即可,注意上面的命令行都是以这个目录为标准的,切忌不要随意放置
 
 ## 下载部署服务
 
