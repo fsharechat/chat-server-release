@@ -60,5 +60,5 @@ rem set JAVA_OPTS=%JAVA_OPTS% -XX:+UseGCLogFileRotation
 rem set JAVA_OPTS=%JAVA_OPTS% -XX:NumberOfGCLogFiles=10
 rem set JAVA_OPTS=%JAVA_OPTS% -XX:GCLogFileSize=10M"
 
-%JAVA% -server %JAVA_OPTS% %JAVA_OPTS_SCRIPT% -jar %FSHARECHAT_HOME%\lib\%JAR_NAME% --spring.config.additional-location=file:.\config\ 
+start javaw -server %JAVA_OPTS% %JAVA_OPTS_SCRIPT% -jar %FSHARECHAT_HOME%\lib\%JAR_NAME% --spring.config.additional-location=file:.\config\ 
 rem > %FSHARECHAT_HOME%\logs\push-group.log 2<&1
