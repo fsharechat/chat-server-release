@@ -1,5 +1,7 @@
 # 飞享服务端发布说明
 
+* windows server部署详情请参见点击[这里](fshare-on-windows.md)
+
 在部署之前,有必要对部署目录`boot`做一些说明
 ```shell
 ├── download #android客户端 Apk
