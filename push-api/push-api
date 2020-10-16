@@ -1,0 +1,132 @@
+#!/bin/sh
+# 这里可以修改JAVA_HOME的路径
+JAVA_HOME=/data/jdk
+
+APP_NAME=$(basename "$0")
+APP_DIR=/data/boot/${APP_NAME}
+APP_VERSION_FILE=${APP_DIR}/version
+APP_LIB=${APP_DIR}/lib
+JVM_INI=${APP_DIR}/jvm.ini
+JVM_INI_LOCAL=${APP_DIR}/../jvm.ini
+
+if [ -f "${APP_VERSION_FILE}" ]; then
+  APP_VERSION=$(cat ${APP_VERSION_FILE})
+fi
+
+if [ -f "${JVM_INI_LOCAL}" ] && [ -f "${JVM_INI}" ]; then
+  JVM_OPTIONS="$(sort -t= -k1,1 -s -u ${JVM_INI_LOCAL} ${JVM_INI} | grep -v "^#" |  xargs)"
+elif [ -f "${JVM_INI}" ]; then
+  JVM_OPTIONS="$(cat ${JVM_INI} | grep -v "^#" |  xargs)"
+elif [ -f "${JVM_INI}" ]; then
+  JVM_OPTIONS="$(cat ${JVM_INI_LOCAL} | grep -v "^#" |  xargs)"
+else
+  JVM_OPTIONS=""
+fi
+
+#服务器端口
+SERVER_PORT=$(echo ${JVM_OPTIONS} | sed 's/.*server\.port=\([[:digit:]]*\).*$/\1/')
+if [ -z "${SERVER_PORT}" ]; then
+  echo "server port is empty"
+  SERVER_PORT=8080
+fi
+
+if [ -n "$(echo $SERVER_PORT | sed -n "/^[0-9]\+$/p")" ];then 
+  echo "$SERVER_PORT is a number."
+else
+  echo "$SERVER_PORT is not a number"
+  SERVER_PORT=8080 
+fi 
+
+echo "server port [${SERVER_PORT}]"
+
+
+do_start()
+{
+  cd ${APP_DIR}
+  JAR_NAME=$(ls ${APP_LIB} | grep jar)
+
+  if [ -z "${JAVA_HOME}" ]; then
+    JAVA_HOME=/data/java
+  fi
+
+  mkdir -p /data/boot/$APP_NAME/logs
+
+  COMMAND="$JAVA_HOME/bin/java $JVM_OPTIONS -jar $APP_LIB/$JAR_NAME --spring.config.additional-location=file:./config/"
+  (${COMMAND} 2>&1 1> "/data/boot/$APP_NAME/logs/$APP_NAME.log" &) > /dev/null
+
+  sleep 1 #避免进程启动太慢,导致无法进入后续循环
+
+  for i in $(ps -ef | grep -w 'java' | grep "$APP_DIR" | grep -w '\-jar' | egrep -v 'grep' | awk '{print $2}') ; do
+    echo "Starting Instance $i"
+    RETRY_TIME=0
+    while [[ ${RETRY_TIME} -lt 24 &&  -z "$(/usr/bin/curl -s -m 1 "http://127.0.0.1:$SERVER_PORT/monitor/alive" | grep '"code":200')" ]]; do
+      RETRY_TIME=$(expr ${RETRY_TIME} + 1)
+      echo "Retry after 5 seconds ... "
+      sleep 5
+    done
+    if [ ${RETRY_TIME} -lt 24 ]; then
+      echo "Start Success"
+      exit 0
+    else
+      echo "Start Timeout"
+      exit 1
+    fi
+  done
+
+  echo "Start Failure"
+  exit 1
+}
+
+do_stop()
+{
+  for i in $(ps -ef | grep -w 'java' | grep "$APP_DIR" | grep -w '\-jar' | egrep -v 'grep' | awk '{print $2}') ; do
+    if [ ${i} != $$ ]; then
+      kill ${i}
+      while [[ -n $(ps -ef | grep -w 'java' | grep "$APP_DIR" | grep -w '\-jar' | egrep -v 'grep' | awk '{print $2}' | grep ${i}) ]] ; do
+        echo "wait for ${i} exit"
+        sleep 1;
+      done
+      echo "Stop Running Instance ${i}"
+    fi
+  done
+}
+
+do_status() {
+  [ -n "${APP_VERSION}" ] && echo "${APP_NAME}-${APP_VERSION}"
+  if [ -z "$(/usr/bin/curl -s -m 1 "http://127.0.0.1:$SERVER_PORT/monitor/alive" | grep '"code":200')" ] ; then
+    echo "$APP_NAME is not running."
+  else
+    PID=$(ps -ef | grep -w 'java' | grep "$APP_DIR" | grep -w '\-jar' | egrep -v 'grep' | awk '{print $2}')
+    echo "$APP_NAME is running, pid=$PID."
+  fi
+}
+
+case "$1" in
+  start)
+    do_start
+    exit $?
+    ;;
+  stop)
+    do_stop
+    exit $?
+    ;;
+  restart)
+    do_stop
+    if [ $? -eq 0 ]; then
+      do_status
+      do_start
+      exit $?
+    else
+      exit 1
+    fi
+    ;;
+  status)
+    do_status
+    ;;
+  *)
+    echo "Usage: $APP_NAME <{start|stop|restart|status}>" >&2
+    exit 3
+    ;;
+esac
+
+#到达这里一定是因
