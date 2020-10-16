@@ -1,15 +1,15 @@
 @ECHO OFF
 
 set "CURRENT_DIR=%cd%"
-if not "%FSHARECHAT_HOME%" == "" goto gotHome
-set "FSHARECHAT_HOME=%CURRENT_DIR%"
-if exist "%FSHARECHAT_HOME%\push-connector.bat" goto okHome
+if not "%FSHARECHAT_PUSH_CONNECTOR_HOME%" == "" goto gotHome
+set "FSHARECHAT_PUSH_CONNECTOR_HOME=%CURRENT_DIR%"
+if exist "%FSHARECHAT_PUSH_CONNECTOR_HOME%\push-connector.bat" goto okHome
 cd ..
-set "FSHARECHAT_HOME=%cd%"
+set "FSHARECHAT_PUSH_CONNECTOR_HOME=%cd%"
 cd "%CURRENT_DIR%"
 :gotHome
-if exist "%FSHARECHAT_HOME%\push-connector.bat" goto okHome
-    echo The FSHARECHAT_HOME environment variable is not defined correctly
+if exist "%FSHARECHAT_PUSH_CONNECTOR_HOME%\push-connector.bat" goto okHome
+    echo The FSHARECHAT_PUSH_CONNECTOR_HOME environment variable is not defined correctly
     echo This environment variable is needed to run this program
 goto end
 :okHome
@@ -22,17 +22,17 @@ if exist { "%JAVA_HOME%\bin\java" } (
 )
 
 echo Using JAVA_HOME:       "%JAVA_HOME%"
-echo Using FSHARECHAT_HOME:   "%FSHARECHAT_HOME%"
+echo Using FSHARECHAT_PUSH_CONNECTOR_HOME:   "%FSHARECHAT_PUSH_CONNECTOR_HOME%"
 
 rem  set LOG_CONSOLE_LEVEL=info
 rem  set LOG_FILE_LEVEL=fine
 set JAVA_OPTS=
 set JAVA_OPTS_SCRIPT=-XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true
-set FSHARECHAT_PATH=%FSHARECHAT_HOME%
-set LOG_FILE=%FSHARECHAT_HOME%\config\logback.xml
-set CONFI_DIR = %FSHARECHAT_HOME%\config\
+set FSHARECHAT_PUSH_CONNECTOR_PATH=%FSHARECHAT_PUSH_CONNECTOR_HOME%
+set LOG_FILE=%FSHARECHAT_PUSH_CONNECTOR_HOME%\config\logback.xml
+set CONFI_DIR = %FSHARECHAT_PUSH_CONNECTOR_HOME%\config\
 
-for /F %%i in ('dir %FSHARECHAT_HOME%\lib\ /B') do ( set JAR_NAME=%%i)
+for /F %%i in ('dir %FSHARECHAT_PUSH_CONNECTOR_HOME%\lib\ /B') do ( set JAR_NAME=%%i)
 echo Push-Connector JAR_NAME: "%JAR_NAME%"
 rem Use the Hotspot garbage-first collector.
 set JAVA_OPTS=%JAVA_OPTS%  -XX:+UseG1GC
@@ -60,5 +60,5 @@ rem set JAVA_OPTS=%JAVA_OPTS% -XX:+UseGCLogFileRotation
 rem set JAVA_OPTS=%JAVA_OPTS% -XX:NumberOfGCLogFiles=10
 rem set JAVA_OPTS=%JAVA_OPTS% -XX:GCLogFileSize=10M"
 
-start javaw -server %JAVA_OPTS% %JAVA_OPTS_SCRIPT% -jar %FSHARECHAT_HOME%\lib\%JAR_NAME% --spring.config.additional-location=file:.\config\ 
-rem > %FSHARECHAT_HOME%\logs\push-connector.log 2<&1
+start javaw -server %JAVA_OPTS% %JAVA_OPTS_SCRIPT% -jar %FSHARECHAT_PUSH_CONNECTOR_HOME%\lib\%JAR_NAME% --spring.config.additional-location=file:.\config\ 
+rem > %FSHARECHAT_PUSH_CONNECTOR_HOME%\logs\push-connector.log 2<&1
